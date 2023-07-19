@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">  
+  <script src='https://d3js.org/d3.v5.min.js'></script>
+  <script type="text/javascript" src="functions.js"></script>
+  <title>Explore the Rankings</title>
+  <style> rect {fill: pink}
+  </style>
+</head>
+<body onload="loadInitialYearRanking()">
+  <div><h1>The Rise of the French Bulldog</h1>
+  <button id="button2013" onclick="loadYearData(2013)">2013</button>
+  <button id="button2014" onclick="loadYearData(2014)">2014</button>
+  </div>
+  <div>
+  <svg width = 400 height = 400>
+    <g id="chart"></g>
+    <g id="xaxis"></g>
+    
+  </svg>
+</div>
+</body>
+</html> 
