@@ -8,16 +8,14 @@
   <style> rect {fill: pink}
   </style>
 </head>
-<body onload="loadInitialYearRanking()">
+<body onload="loadInitialYearRanking(2013)">
   <div><h1>The Rise of the French Bulldog</h1>
-  <button id="button2013" onclick="loadYearData(2013)">2013</button>
-  <button id="button2014" onclick="loadYearData(2014)">2014</button>
+  <button id="button2013" onclick="moveYearRanking(2013)">2013</button>
+  <button id="button2014" onclick="moveYearRanking(2014)">2014</button>
+  <button id="button2015" onclick="moveYearRanking(2015)">2015</button>
   </div>
   <div>
-  <svg width = 400 height = 400>
-    <g id="chart"></g>
-    <g id="xaxis"></g>
-    
+  <svg>    
   </svg>
 </div>
 </body>
