@@ -98,14 +98,14 @@ function getYByRank(rankArray, year){
 function getAnnotations() {
   const annotations = [{
     note: {
-      label: "I'm doing it!!!!",
+      title: "I have a thing to say about Goldens",
       bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-      title: "I have a thing to say"
+      label: "They are nice but the shedding omg"
     },
     x: barWidth + gMargin,
-    y: getYByRank(data[0].ranking, 2020) + 10,
+    y: getYByRank(data.find((element) => element.breed === 'Golden Retriever').ranking, 2016) + 10,
     className: "annotation",
-    dy: 40,
+    dy: -40,
     dx: 160,
     connector: {
       end: "arrow"
@@ -113,14 +113,14 @@ function getAnnotations() {
   },
   {
     note: {
-      label: "I'm doing it!!!!",
+      title: "I have a thing to say about Beagles",
       bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-      title: "I have a thing to say"
+      label: "They are too loud and they smell",
     },
     x: barWidth + gMargin,
-    y: getYByRank(data[3].ranking, 2020) + 10,
+    y: getYByRank(data.find((element) => element.breed === 'Beagle').ranking, 2016) + 10,
     className: "annotation",
-    dy: 120,
+    dy: -10,
     dx: 160,
     connector: {
       end: "arrow"
