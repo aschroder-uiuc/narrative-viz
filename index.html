@@ -6,18 +6,24 @@
   <script type="text/javascript" src="d3-annotation.js"></script>  
   <script type="text/javascript" src="data-functions.js"></script>
   <script type="text/javascript" src="nav-functions.js"></script>
+  <link rel="stylesheet" href="main-pages.css">
   <title>Explore the Rankings</title>
   <style> rect {fill: pink}
   </style>
 </head>
 <body onload="initalizeAndLoad(2016)">
-  <div id="title-div">
+  <div id="header-div">
     <h1>The Rise of the French Bulldog</h1>
     <button class="nav-button" id="next" page="page-2.html">Next Page</button>
   </div>
-  <div id="svg-div">
-    <svg>    
-    </svg>
+  <div id="main-body-div">
+    <div id="svg-div">
+      <svg>    
+      </svg>
+    </div>
+    <div id="description-div">
+      <p>Here's some text about other stuff!  I want it to be on the side</p>
+    </div>
   </div>
   <script>
     const navButtons = document.getElementsByClassName("nav-button") 

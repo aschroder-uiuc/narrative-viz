@@ -1,0 +1,19 @@
+#header-div {
+    background-color: lightseagreen;
+}
+
+#main-body-div {
+    background-color: slateblue;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+#svg-div {
+    background-color: lightblue;
+}
+
+#description-div {
+    background-color: lightgoldenrodyellow;
+    
+}
