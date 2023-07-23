@@ -57,10 +57,10 @@ async function loadAndProcessData () {
 function loadInitialYearRanking(year) {
   console.log(data)
   //setup svg size
-  d3.select('svg').attr('width', width).attr('height', height)
+  d3.select('svg#chart-svg').attr('width', width).attr('height', height)
 
   //setup g elements to contain elements to move together
-  const gSet = d3.select('svg').selectAll('g').data(data).enter().append('g')
+  const gSet = d3.select('svg#chart-svg').selectAll('g').data(data).enter().append('g')
   .attr('id', function (d) {return d.breed})
   .attr('transform', (d) => `translate(${gMargin}, ${getYByRank(d.ranking, year)})`);
 
@@ -80,7 +80,7 @@ function loadInitialYearRanking(year) {
 }
 
 function moveYearRanking(year) {
-  const gSet = d3.select('svg').selectAll('g')
+  const gSet = d3.select('svg#chart-svg').selectAll('g')
   gSet.transition().duration(1500)
   .attr('transform', (d) => `translate(${gMargin}, ${getYByRank(d.ranking, year)})`);
 }
@@ -89,6 +89,27 @@ function getYByRank(rankArray, year){
   const ranking = rankArray.find((element) => element.year === year);
   const rank = ranking.rank ? ranking.rank : 6;
   return rb(rank)
+}
+
+function buildAxis() {
+  d3.select('svg#axis-svg').selectAll('g').data([1, 2, 3]).enter().append('g')
+  d3.select('svg#axis-svg').select('g:nth-child(1)').append('text')
+    .attr('x', 10)
+    .attr('y', 20)
+    .text('top')
+
+    d3.select('svg#axis-svg').select('g:nth-child(2)').append('line')
+    .attr('x1', 100)
+    .attr('y1', 40)
+    .attr('x2', 100)
+    .attr('y2', 160)
+    .attr('stroke', 'black')
+    .attr('stroke-width', 2)
+  
+    d3.select('svg#axis-svg').select('g:nth-child(3)').append('text')
+    .attr('x', 10)
+    .attr('y', 100)
+    .text('bottom')
 }
 
 //////////////////////////////////////
@@ -139,7 +160,7 @@ function createAnnotations() {
     .type(type)
     .annotations(annotations)
 
-  d3.select("svg")
+  d3.select("svg#chart-svg")
     .append("g")
     .call(makeAnnotations)
 }
@@ -148,4 +169,5 @@ async function initalizeAndLoad(year) {
   await loadAndProcessData()
   loadInitialYearRanking(year)
   createAnnotations()
+  buildAxis()
 }
