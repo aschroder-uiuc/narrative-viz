@@ -7,53 +7,57 @@ rankRange = [0,height + 100]
 rankDomain = [1, 2, 3, 4, 5, 6]
 rb = d3.scaleBand().domain(rankDomain).range(rankRange)
 
-const data = [
-  {
-    breed: 'Labrador Retriever',
-    ranking: [{
-      year: 2013,
-      rank: 1
-    }, 
-    {
-      year: 2014,
-      rank: 2
-    },
-    {
-      year: 2015,
-      rank: 2
-    }]
-  },
-  {
-    breed: 'Beagle',
-    ranking: [{
-      year: 2013,
-      rank: 2
-    }, 
-    {
-      year: 2014,
-      rank: null
-    },
-    {
-      year: 2015,
-      rank: 1
-    }]
-  },
-  {
-    breed: 'Boxer',
-    ranking: [{
-      year: 2013,
-      rank: null
-    }, 
-    {
-      year: 2014,
-      rank: 1
-    },
-    {
-      year: 2015,
-      rank: null
-    }]
+async function loadAndProcessData () {
+  const inputFile = 'https://raw.githubusercontent.com/aschroder-uiuc/aschroder-uiuc.github.io/main/popular_breeds_by_year.csv'
+  const inputData = await d3.csv(inputFile)
+  
+  const yearArray = []
+  const breedMap = new Map()
+  const breedArray = []
+  
+  for (let yearData of inputData){
+    const year = yearData.year
+    yearArray.push(year)
+    const ranking = yearData.ranking.split(',')
+    for (let rankIndex in ranking){
+      const breed = ranking[rankIndex]
+      const rankData = {year: year, rank: +rankIndex + 1 }
+      if (breedMap.get(breed)){
+        const currentArray = breedMap.get(breed)
+        const updatedArray = [...currentArray, rankData]
+        breedMap.set(breed, updatedArray)
+      }
+      else {
+        breedMap.set(breed, [rankData])
+      }
+    }
   }
-]
+
+  const allBreeds = breedMap.keys()
+  for (const breed of allBreeds){
+    const breedData = breedMap.get(breed)
+    for (const year of yearArray){
+      const rank = breedData.find((element) => element.year === year);
+      const yearRanking = {year: +year, rank: rank?.rank ? rank?.rank : null}
+      const breedInArray = breedArray.find((element) => element.breed === breed)
+      if (breedInArray){
+        breedInArray.ranking.push(yearRanking)
+      }
+      else{
+        breedArray.push({
+          breed: breed,
+          ranking:[ yearRanking ]
+        })
+      }
+    }
+  }
+  window.data = breedArray
+}
+
+async function initalizeAndLoad(year) {
+  await loadAndProcessData()
+  loadInitialYearRanking(year)
+}
 
 function loadInitialYearRanking(year) {
   //setup svg size
