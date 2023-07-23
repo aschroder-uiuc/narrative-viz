@@ -1,7 +1,7 @@
 const width = 600
 const height = 400
 const gMargin = 40
-const barWidth = 175
+const barWidth = 250
 
 rankRange = [0,height + 100]
 rankDomain = [1, 2, 3, 4, 5, 6]
@@ -54,12 +54,8 @@ async function loadAndProcessData () {
   window.data = breedArray
 }
 
-async function initalizeAndLoad(year) {
-  await loadAndProcessData()
-  loadInitialYearRanking(year)
-}
-
 function loadInitialYearRanking(year) {
+  console.log(data)
   //setup svg size
   d3.select('svg').attr('width', width).attr('height', height)
 
@@ -99,41 +95,57 @@ function getYByRank(rankArray, year){
 // Annotations
 //////////////////////////////////////
 
-const type = d3.annotationCallout
-
-const annotations = [{
-  note: {
-    label: "I'm doing it!!!!",
-    bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-    title: "I have a thing to say"
+function getAnnotations() {
+  const annotations = [{
+    note: {
+      label: "I'm doing it!!!!",
+      bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
+      title: "I have a thing to say"
+    },
+    x: barWidth + gMargin,
+    y: getYByRank(data[0].ranking, 2020) + 10,
+    className: "annotation",
+    dy: 40,
+    dx: 160,
+    connector: {
+      end: "arrow"
+    },
   },
-  //can use x, y directly instead of data
- // data: { date: "18-Sep-09", close: 185.02 },
- x: barWidth + gMargin,
- y: getYByRank(data[1].ranking, 2013),
-  className: "show-bg",
-  dy: 137,
-  dx: 162,
-  connector: {
-    end: "arrow" // 'dot' also available
-  },
-}]
+  {
+    note: {
+      label: "I'm doing it!!!!",
+      bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
+      title: "I have a thing to say"
+    },
+    x: barWidth + gMargin,
+    y: getYByRank(data[3].ranking, 2020) + 10,
+    className: "annotation",
+    dy: 120,
+    dx: 160,
+    connector: {
+      end: "arrow"
+    },
+  }]
 
-const parseTime = d3.timeParse("%d-%b-%y")
-const timeFormat = d3.timeFormat("%d-%b-%y")
-
-//Skipping setting domains for sake of example
-const x = d3.scaleTime().range([0, 200])
-const y = d3.scaleLinear().range([200, 0])
-
-const makeAnnotations = d3.annotation()
-  .notePadding(15)
-  .type(type)
-  .annotations(annotations)
+  return annotations
+}
 
 function createAnnotations() {
-d3.select("svg")
-  .append("g")
-  .attr("class", "annotation-group")
-  .call(makeAnnotations)
+  const type = d3.annotationCallout
+  const annotations = getAnnotations()
+
+  const makeAnnotations = d3.annotation()
+    .notePadding(15)
+    .type(type)
+    .annotations(annotations)
+
+  d3.select("svg")
+    .append("g")
+    .call(makeAnnotations)
+}
+
+async function initalizeAndLoad(year) {
+  await loadAndProcessData()
+  loadInitialYearRanking(year)
+  createAnnotations()
 }
