@@ -8,7 +8,7 @@ rankDomain = [1, 2, 3, 4, 5, 6]
 rb = d3.scaleBand().domain(rankDomain).range(rankRange)
 
 async function loadAndProcessData () {
-  const inputFile = 'https://raw.githubusercontent.com/aschroder-uiuc/aschroder-uiuc.github.io/main/popular_breeds_by_year.csv'
+  const inputFile = 'https://raw.githubusercontent.com/aschroder-uiuc/aschroder-uiuc.github.io/main/data/popular_breeds_by_year.csv'
   const inputData = await d3.csv(inputFile)
   
   const yearArray = []
@@ -55,7 +55,6 @@ async function loadAndProcessData () {
 }
 
 function loadInitialYearRanking(year) {
-  console.log(data)
   //setup svg size
   d3.select('svg#chart-svg').attr('width', width).attr('height', height)
 
@@ -116,17 +115,19 @@ function buildAxis() {
 // Annotations
 //////////////////////////////////////
 
-function getAnnotations() {
-  const annotations = [{
+function getAnnotations(year) {
+  let annotations;
+
+  const annotations1 = [{
     note: {
-      title: 'I have a thing to say about Goldens',
+      title: 'English Bulldog',
       bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
-      label: 'They are nice but the shedding omg'
+      label: "The Frenchie's bigger and wrinklier cousin has been a fan-favorite for years"
     },
     x: barWidth + gMargin,
-    y: getYByRank(data.find((element) => element.breed === 'Golden Retriever').ranking, 2016) + 10,
+    y: getYByRank(data.find((element) => element.breed === 'English Bulldog').ranking, 2016) + 10,
     className: 'annotation',
-    dy: -40,
+    dy: -80,
     dx: 160,
     connector: {
       end: 'arrow'
@@ -134,9 +135,9 @@ function getAnnotations() {
   },
   {
     note: {
-      title: 'I have a thing to say about Beagles',
+      title: 'Beagles',
       bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
-      label: 'They are too loud and they smell',
+      label: 'The smallest breed in the top 5, Beagles have an expected weight of 20 - 30 pounds',
     },
     x: barWidth + gMargin,
     y: getYByRank(data.find((element) => element.breed === 'Beagle').ranking, 2016) + 10,
@@ -148,12 +149,84 @@ function getAnnotations() {
     },
   }]
 
+  const annotations2 = [{
+    note: {
+      title: 'German Shepherd Dog',
+      bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
+      label: "The German Shepherd maintains it's position above Goldens"
+    },
+    x: barWidth + gMargin,
+    y: getYByRank(data.find((element) => element.breed === 'German Shepherd Dog').ranking, 2020) + 10,
+    className: 'annotation',
+    dy: -10,
+    dx: 160,
+    connector: {
+      end: 'arrow'
+    },
+  },
+  {
+    note: {
+      title: 'English Bulldog',
+      bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
+      label: '2020 is the last year that the Bulldog stay in the top 5',
+    },
+    x: barWidth + gMargin,
+    y: getYByRank(data.find((element) => element.breed === 'English Bulldog').ranking, 2020) + 10,
+    className: 'annotation',
+    dy: -10,
+    dx: 160,
+    connector: {
+      end: 'arrow'
+    },
+  }]
+  const annotations3 = [{
+    note: {
+      title: 'Golden Retriever',
+      bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
+      label: 'In another upset, the Golden finally beats out the GSD for the number 3 spot.'
+    },
+    x: barWidth + gMargin,
+    y: getYByRank(data.find((element) => element.breed === 'Golden Retriever').ranking, 2022) + 10,
+    className: 'annotation',
+    dy: -10,
+    dx: 160,
+    connector: {
+      end: 'arrow'
+    },
+  },
+  {
+    note: {
+      title: 'Poodle',
+      bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
+      label: 'Although the miniature poodles are very popular, the standard is in the top 5.',
+    },
+    x: barWidth + gMargin,
+    y: getYByRank(data.find((element) => element.breed === 'Poodle').ranking, 2022) + 10,
+    className: 'annotation',
+    dy: -10,
+    dx: 160,
+    connector: {
+      end: 'arrow'
+    },
+  }]
+
+  switch(year) {
+    case 2016:
+      annotations = annotations1
+      break;
+    case 2020:
+      annotations = annotations2
+      break;
+    case 2022:
+      annotations = annotations3
+  }
+
   return annotations
 }
 
-function createAnnotations() {
+function createAnnotations(year) {
   const type = d3.annotationCallout
-  const annotations = getAnnotations()
+  const annotations = getAnnotations(year)
 
   const makeAnnotations = d3.annotation()
     .notePadding(15)
@@ -168,6 +241,6 @@ function createAnnotations() {
 async function initalizeAndLoad(year) {
   await loadAndProcessData()
   loadInitialYearRanking(year)
-  createAnnotations()
+  createAnnotations(year)
   buildAxis()
 }
