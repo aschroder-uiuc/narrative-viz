@@ -119,32 +119,32 @@ function buildAxis() {
 function getAnnotations() {
   const annotations = [{
     note: {
-      title: "I have a thing to say about Goldens",
-      bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-      label: "They are nice but the shedding omg"
+      title: 'I have a thing to say about Goldens',
+      bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
+      label: 'They are nice but the shedding omg'
     },
     x: barWidth + gMargin,
     y: getYByRank(data.find((element) => element.breed === 'Golden Retriever').ranking, 2016) + 10,
-    className: "annotation",
+    className: 'annotation',
     dy: -40,
     dx: 160,
     connector: {
-      end: "arrow"
+      end: 'arrow'
     },
   },
   {
     note: {
-      title: "I have a thing to say about Beagles",
-      bgPadding: {"top":15,"left":10,"right":10,"bottom":10},
-      label: "They are too loud and they smell",
+      title: 'I have a thing to say about Beagles',
+      bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
+      label: 'They are too loud and they smell',
     },
     x: barWidth + gMargin,
     y: getYByRank(data.find((element) => element.breed === 'Beagle').ranking, 2016) + 10,
-    className: "annotation",
+    className: 'annotation',
     dy: -10,
     dx: 160,
     connector: {
-      end: "arrow"
+      end: 'arrow'
     },
   }]
 
@@ -160,8 +160,8 @@ function createAnnotations() {
     .type(type)
     .annotations(annotations)
 
-  d3.select("svg#chart-svg")
-    .append("g")
+  d3.select('svg#chart-svg')
+    .append('g')
     .call(makeAnnotations)
 }
 
