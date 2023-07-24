@@ -12,14 +12,24 @@
   </style>
 </head>
 <body onload="initalizeAndLoad(2022)">
-  <div id="title-div">
+  <div id="header-div">
     <h1>This is page 3!</h1>
     <button class="nav-button" id="prev" page="page-2.html">Previous Page</button>
     <button class="nav-button" id="next" page="explore.html">Next Page</button>
+    <h2>2022</h2>
   </div>
-  <div id="svg-div">
-    <svg>    
-    </svg>
+  <div id="main-body-div">
+    <div id="axis-div" width="50">
+      <svg id="axis-svg">
+      </svg>
+    </div>
+    <div id="svg-div">
+      <svg id="chart-svg">    
+      </svg>
+    </div>
+    <div id="description-div">
+      <p>Here's some text about other stuff!  I want it to be on the side</p>
+    </div>
   </div>
   <script>
     const navButtons = document.getElementsByClassName("nav-button") 
