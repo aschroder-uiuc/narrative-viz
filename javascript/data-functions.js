@@ -238,7 +238,7 @@ function createAnnotations(year) {
     .call(makeAnnotations)
 }
 
-async function initalizeAndLoad(year) {
+async function initializeDataAndCreateAnnotations(year) {
   await loadAndProcessData()
   loadInitialYearRanking(year)
   createAnnotations(year)
