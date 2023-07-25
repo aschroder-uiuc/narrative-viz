@@ -92,12 +92,12 @@ function moveYearRanking(year) {
 function getYByRank(rankArray, year){
   const rankRange = [0,height + 100]
   const rankDomain = []
-  for (let i = 1; i <= limit + 2; i++) {
+  for (let i = 1; i <= limit + 3; i++) {
     rankDomain.push(i)
   }
   rb = d3.scaleBand().domain(rankDomain).range(rankRange)
   const ranking = rankArray.find((element) => element.year === year);
-  const rank = ranking.rank ? ranking.rank : limit + 2;
+  const rank = ranking.rank ? ranking.rank : limit + 3;
   return rb(rank)
 }
 
@@ -120,6 +120,10 @@ function buildAxis() {
     .attr('x', 10)
     .attr('y', 100)
     .text('bottom')
+}
+
+function clearSVG() {
+  d3.select('svg#chart-svg').selectAll('g').remove()
 }
 
 //////////////////////////////////////
@@ -256,8 +260,9 @@ async function initializeDataAndCreateAnnotations(year) {
   buildAxis()
 }
 
-async function initializeAndLoadData(year) {
-  await loadAndProcessData()
+async function initializeAndLoadData(year, limit = 5) {
+  clearSVG()
+  await loadAndProcessData(limit)
   loadInitialYearRanking(year)
   buildAxis()
 }
