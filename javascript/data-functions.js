@@ -1,5 +1,7 @@
 const width = 600
 const height = 500
+const axisWidth = 150
+const axisHeight = height
 const gMargin = 40
 const barWidth = 250
 
@@ -84,6 +86,8 @@ function loadInitialYearRanking(year) {
 }
 
 function moveYearRanking(year) {
+  const yearHeader = document.getElementById('explore-year-display')
+  yearHeader.innerHTML = `${year}`
   const gSet = d3.select('svg#chart-svg').selectAll('g')
   gSet.transition().duration(1500)
   .attr('transform', (d) => `translate(${gMargin}, ${getYByRank(d.ranking, year)})`);
@@ -102,24 +106,32 @@ function getYByRank(rankArray, year){
 }
 
 function buildAxis() {
+  d3.select('svg#axis-svg').attr('width', axisWidth).attr('height', axisHeight)
+  d3.select('svg#axis-svg').selectAll('g').remove()
+
+  const rankRange = [0,height + 100]
+  const rankDomain = []
+  for (let i = 1; i <= limit + 3; i++) {
+    rankDomain.push(i)
+  }
+  rb = d3.scaleBand().domain(rankDomain).range(rankRange)
+
   d3.select('svg#axis-svg').selectAll('g').data([1, 2, 3]).enter().append('g')
   d3.select('svg#axis-svg').select('g:nth-child(1)').append('text')
-    .attr('x', 10)
-    .attr('y', 20)
-    .text('top')
+    .attr('transform',  `translate(${gMargin + 10}, ${rb(1) + 20})`)
+    .text('Most Popular')
 
-    d3.select('svg#axis-svg').select('g:nth-child(2)').append('line')
+  d3.select('svg#axis-svg').select('g:nth-child(2)').append('line')
     .attr('x1', 100)
-    .attr('y1', 40)
+    .attr('y1', `${rb(1) + 30}`)
     .attr('x2', 100)
-    .attr('y2', 160)
+    .attr('y2', `${rb(limit) - 10}`)
     .attr('stroke', 'black')
     .attr('stroke-width', 2)
   
-    d3.select('svg#axis-svg').select('g:nth-child(3)').append('text')
-    .attr('x', 10)
-    .attr('y', 100)
-    .text('bottom')
+  d3.select('svg#axis-svg').select('g:nth-child(3)').append('text')
+    .attr('transform',  `translate(${gMargin + 10},  ${rb(limit) +20})`)
+    .text('Less Popular')
 }
 
 function clearSVG() {
@@ -265,4 +277,6 @@ async function initializeAndLoadData(year, limit = 5) {
   await loadAndProcessData(limit)
   loadInitialYearRanking(year)
   buildAxis()
+  const yearHeader = document.getElementById('explore-year-display')
+  yearHeader.innerHTML = `${year}`
 }

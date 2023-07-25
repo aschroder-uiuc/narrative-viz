@@ -11,9 +11,6 @@
 }
 #axis-div {
     background-color: hotpink;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
     margin-left: 20px;
 }
 #svg-div {
