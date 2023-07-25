@@ -90,12 +90,14 @@ function moveYearRanking(year) {
 }
 
 function getYByRank(rankArray, year){
-  console.log(limit)
-  rankRange = [0,height + 100]
-  rankDomain = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  const rankRange = [0,height + 100]
+  const rankDomain = []
+  for (let i = 1; i <= limit + 2; i++) {
+    rankDomain.push(i)
+  }
   rb = d3.scaleBand().domain(rankDomain).range(rankRange)
   const ranking = rankArray.find((element) => element.year === year);
-  const rank = ranking.rank ? ranking.rank : 12;
+  const rank = ranking.rank ? ranking.rank : limit + 2;
   return rb(rank)
 }
 
