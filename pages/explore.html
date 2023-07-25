@@ -11,11 +11,34 @@
   <style> rect {fill: pink}
   </style>
 </head>
-<body onload="initalizeAndLoad(2016)">
+<body onload="initializeAndLoadData(2016)">
   <div id="header-div">
     <h1>Here's some exploration</h1>
     <button class="nav-button" id="prev" page="page-3.html">Previous Page</button>
     <button class="nav-button" id="next" page="../index.html">Restart</button>
+  </div>
+  <div id="explore-div">
+    <fieldset class="explore-fieldset">
+      <legend>Select Ranks:</legend>
+      <button class="limit-button" onclick="initializeAndLoadData(2016, 3)">Top 3</button>
+      <button class="limit-button" onclick="initializeAndLoadData(2016, 4)">Top 4</button>
+      <button class="limit-button" onclick="initializeAndLoadData(2016, 5)">Top 5</button>
+      <button class="limit-button" onclick="initializeAndLoadData(2016, 6)">Top 6</button>
+      <button class="limit-button" onclick="initializeAndLoadData(2016, 7)">Top 7</button>
+      <button class="limit-button" onclick="initializeAndLoadData(2016, 8)">Top 8</button>
+      <button class="limit-button" onclick="initializeAndLoadData(2016, 9)">Top 9</button>
+      <button class="limit-button" onclick="initializeAndLoadData(2016, 10)">Top 10</button>
+    </fieldset>
+    <fieldset class="explore-fieldset">
+      <legend>Select Year:</legend>
+      <button class="year-button" onclick="moveYearRanking(2016)">2016</button>
+      <button class="year-button" onclick="moveYearRanking(2017)">2017</button>
+      <button class="year-button" onclick="moveYearRanking(2018)">2018</button>
+      <button class="year-button" onclick="moveYearRanking(2019)">2019</button>
+      <button class="year-button" onclick="moveYearRanking(2020)">2020</button>
+      <button class="year-button" onclick="moveYearRanking(2021)">2021</button>
+      <button class="year-button" onclick="moveYearRanking(2022)">2022</button>
+    </fieldset>
   </div>
   <div id="main-body-div">
     <div id="axis-div" width="50">
