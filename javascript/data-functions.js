@@ -1,5 +1,5 @@
 const width = 600
-const height = 400
+const height = 500
 const gMargin = 40
 const barWidth = 250
 
@@ -7,18 +7,22 @@ rankRange = [0,height + 100]
 rankDomain = [1, 2, 3, 4, 5, 6]
 rb = d3.scaleBand().domain(rankDomain).range(rankRange)
 
-async function loadAndProcessData () {
+async function loadAndProcessData (limit) {
   const inputFile = 'https://raw.githubusercontent.com/aschroder-uiuc/aschroder-uiuc.github.io/main/data/popular_breeds_by_year.csv'
   const inputData = await d3.csv(inputFile)
   
   const yearArray = []
   const breedMap = new Map()
   const breedArray = []
-  
+
   for (let yearData of inputData){
     const year = yearData.year
     yearArray.push(year)
-    const ranking = yearData.ranking.split(',')
+    let ranking = yearData.ranking.split(',')
+
+    //truncate ranking array as necessary
+    ranking = ranking.slice(0, limit)
+
     for (let rankIndex in ranking){
       const breed = ranking[rankIndex]
       const rankData = {year: year, rank: +rankIndex + 1 }
@@ -51,6 +55,7 @@ async function loadAndProcessData () {
       }
     }
   }
+  window.limit = limit
   window.data = breedArray
 }
 
@@ -60,7 +65,7 @@ function loadInitialYearRanking(year) {
 
   //setup g elements to contain elements to move together
   const gSet = d3.select('svg#chart-svg').selectAll('g').data(data).enter().append('g')
-  .attr('id', function (d) {return d.breed})
+  .attr('id', function (d) { return d.breed })
   .attr('transform', (d) => `translate(${gMargin}, ${getYByRank(d.ranking, year)})`);
 
   //add rectangles to each
@@ -85,8 +90,12 @@ function moveYearRanking(year) {
 }
 
 function getYByRank(rankArray, year){
+  console.log(limit)
+  rankRange = [0,height + 100]
+  rankDomain = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  rb = d3.scaleBand().domain(rankDomain).range(rankRange)
   const ranking = rankArray.find((element) => element.year === year);
-  const rank = ranking.rank ? ranking.rank : 6;
+  const rank = ranking.rank ? ranking.rank : 12;
   return rb(rank)
 }
 
@@ -239,8 +248,14 @@ function createAnnotations(year) {
 }
 
 async function initializeDataAndCreateAnnotations(year) {
-  await loadAndProcessData()
+  await loadAndProcessData(5)
   loadInitialYearRanking(year)
   createAnnotations(year)
+  buildAxis()
+}
+
+async function initializeAndLoadData(year) {
+  await loadAndProcessData()
+  loadInitialYearRanking(year)
   buildAxis()
 }
