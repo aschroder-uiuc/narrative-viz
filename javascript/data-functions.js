@@ -59,6 +59,10 @@ async function loadAndProcessData (limit) {
   }
   window.limit = limit
   window.data = breedArray
+
+  //add description data
+  const descriptionFile = 'https://raw.githubusercontent.com/aschroder-uiuc/aschroder-uiuc.github.io/main/data/breed_descriptions.csv'
+  window.description = await d3.csv(descriptionFile) 
 }
 
 function loadInitialYearRanking(year) {
@@ -68,7 +72,7 @@ function loadInitialYearRanking(year) {
   //setup g elements to contain elements to move together
   const gSet = d3.select('svg#chart-svg').selectAll('g').data(data).enter().append('g')
   .attr('id', function (d) { return d.breed })
-  .attr('transform', (d) => `translate(${gMargin}, ${getYByRank(d.ranking, year)})`);
+  .attr('transform', (d) => `translate(${gMargin}, ${getYByRank(d.ranking, year)})`)
 
   //add rectangles to each
   gSet.append('rect')
@@ -138,6 +142,34 @@ function clearSVG() {
   d3.select('svg#chart-svg').selectAll('g').remove()
 }
 
+function setupInteractivity() {
+  const gSet = d3.select('svg#chart-svg').selectAll('g')
+  .on('mouseover', function () {
+    d3.select(this).select('rect')
+      .style('fill', 'fuchsia')
+  })
+  .on('mouseout', function () {
+    d3.select(this).select('rect')
+    .style('fill', 'pink')
+  })
+  .on('click', function (d) {
+    descriptionData = getDescriptionData(d.breed)
+    d3.select('div#description-div').selectAll('*').remove()
+    d3.select('div#description-div').append('h2').text('About the Breed: ' + d.breed)
+    d3.select('div#description-div').append('p').text(descriptionData.description)
+    d3.select('div#description-div').append('a')
+      .attr('href', descriptionData.link)
+      .attr('target', '_blank')
+      .text('Find out more from the American Kennel Club.')
+
+  })
+}
+
+function getDescriptionData(breed) {
+  const descriptionData = description.find((element) => element.breed === breed);
+  console.log(descriptionData)
+  return descriptionData;
+}
 //////////////////////////////////////
 // Annotations
 //////////////////////////////////////
@@ -277,6 +309,7 @@ async function initializeAndLoadData(year, limit = 5) {
   await loadAndProcessData(limit)
   loadInitialYearRanking(year)
   buildAxis()
+  setupInteractivity()
   const yearHeader = document.getElementById('explore-year-display')
   yearHeader.innerHTML = `${year}`
 }
