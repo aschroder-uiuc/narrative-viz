@@ -72,6 +72,7 @@ function loadInitialYearRanking(year) {
   //setup g elements to contain elements to move together
   const gSet = d3.select('svg#chart-svg').selectAll('g').data(data).enter().append('g')
   .attr('id', function (d) { return d.breed })
+  .attr('class', 'breed-g')
   .attr('transform', (d) => `translate(${gMargin}, ${getYByRank(d.ranking, year)})`)
 
   //add rectangles to each
@@ -162,6 +163,30 @@ function setupInteractivity() {
       .attr('target', '_blank')
       .text('Find out more from the American Kennel Club.')
 
+  })
+}
+
+function setupTooltip() {
+  d3.select('svg#chart-svg').selectAll('g.breed-g')
+  .on('mouseover', function (event) {
+    d3.select(this).select('rect')
+      .style('fill', 'fuchsia')
+    d3.select('svg#chart-svg').append('text')
+      .attr('id', 'tooltip')
+      .attr('x', d3.mouse(this)[0])
+      .attr('y', d3.event.pageY - 130)
+      .text('hello world')
+  })
+  .on('mousemove', function() {
+    d3.select('svg#chart-svg').select('text#tooltip')
+    .attr('x', d3.mouse(this)[0])
+    .attr('y', d3.event.pageY - 130)
+    .text('moving...')
+  })
+  .on('mouseout', function () {
+    d3.select(this).select('rect')
+      .style('fill', 'pink')
+    d3.select('svg#chart-svg').select('text#tooltip').remove()
   })
 }
 
@@ -302,6 +327,7 @@ async function initializeDataAndCreateAnnotations(year) {
   loadInitialYearRanking(year)
   createAnnotations(year)
   buildAxis()
+  setupTooltip()
 }
 
 async function initializeAndLoadData(year, limit = 5) {
