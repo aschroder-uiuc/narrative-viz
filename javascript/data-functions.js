@@ -166,22 +166,22 @@ function setupInteractivity() {
   })
 }
 
-function setupTooltip() {
+function setupTooltip(year) {
   d3.select('svg#chart-svg').selectAll('g.breed-g')
-  .on('mouseover', function (event) {
+  .on('mouseover', function (d) {
+    const rank = d.ranking.find((element) => element.year === year).rank
     d3.select(this).select('rect')
       .style('fill', 'fuchsia')
     d3.select('svg#chart-svg').append('text')
       .attr('id', 'tooltip')
       .attr('x', d3.mouse(this)[0])
       .attr('y', d3.event.pageY - 130)
-      .text('hello world')
+      .text(`Year: ${year} - Rank: ${rank}`)
   })
   .on('mousemove', function() {
     d3.select('svg#chart-svg').select('text#tooltip')
     .attr('x', d3.mouse(this)[0])
     .attr('y', d3.event.pageY - 130)
-    .text('moving...')
   })
   .on('mouseout', function () {
     d3.select(this).select('rect')
@@ -327,7 +327,7 @@ async function initializeDataAndCreateAnnotations(year) {
   loadInitialYearRanking(year)
   createAnnotations(year)
   buildAxis()
-  setupTooltip()
+  setupTooltip(year)
 }
 
 async function initializeAndLoadData(year, limit = 5) {
