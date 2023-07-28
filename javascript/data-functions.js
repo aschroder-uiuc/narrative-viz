@@ -1,9 +1,9 @@
 const width = 800
 const height = 500
 const exploreWidth = 450
-const axisWidth = 150
+const axisWidth = 200
 const axisHeight = height
-const gMargin = 40
+const gMargin = 0
 const barWidth = 350
 
 rankRange = [0,height + 100]
@@ -28,7 +28,7 @@ async function loadAndProcessData (limit) {
 
     for (let rankIndex in ranking){
       const breed = ranking[rankIndex]
-      const rankData = {year: year, rank: +rankIndex + 1 }
+      const rankData = { year: year, rank: +rankIndex + 1 }
       if (breedMap.get(breed)){
         const currentArray = breedMap.get(breed)
         const updatedArray = [...currentArray, rankData]
@@ -110,7 +110,35 @@ function getYByRank(rankArray, year){
   return rb(rank)
 }
 
-function buildAxis() {
+function buildAxisMain() {
+  d3.select('svg#axis-svg').attr('width', axisWidth).attr('height', axisHeight)
+  d3.select('svg#axis-svg').selectAll('g').remove()
+
+  let rankStringArray = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th']
+ rankStringArray =  rankStringArray.slice(0, limit)
+
+  const rankRange = [0,height + 100]
+  const rankDomain = []
+  for (let i = 1; i <= limit + 3; i++) {
+    rankDomain.push(i)
+  }
+  rb = d3.scaleBand().domain(rankDomain).range(rankRange) 
+  console.log(rankStringArray)
+
+  d3.select('svg#axis-svg').selectAll('text').data(rankStringArray).enter().append('text')
+    .attr('transform',  function(d, i) {return `translate(${gMargin + axisWidth - 50}, ${rb(i + 1) + 20})`})
+    .text(function(d) {return d})
+
+  d3.select('svg#axis-svg').selectAll('g').data([1]).enter().append('line')
+    .attr('x1', axisWidth - 5)
+    .attr('y1', rb(1) + 10)
+    .attr('x2', axisWidth - 5)
+    .attr('y2', rb(limit) + 20)
+    .attr('stroke', 'black')
+    .attr('stroke-width', 2)
+}
+
+function buildAxisExplore() {
   d3.select('svg#axis-svg').attr('width', axisWidth).attr('height', axisHeight)
   d3.select('svg#axis-svg').selectAll('g').remove()
 
@@ -123,7 +151,7 @@ function buildAxis() {
 
   d3.select('svg#axis-svg').selectAll('g').data([1, 2, 3]).enter().append('g')
   d3.select('svg#axis-svg').select('g:nth-child(1)').append('text')
-    .attr('transform',  `translate(${gMargin + 10}, ${rb(1) + 20})`)
+    .attr('transform',  `translate(${gMargin + 55}, ${rb(1) + 20})`)
     .text('Most Popular')
 
   d3.select('svg#axis-svg').select('g:nth-child(2)').append('line')
@@ -135,7 +163,7 @@ function buildAxis() {
     .attr('stroke-width', 2)
   
   d3.select('svg#axis-svg').select('g:nth-child(3)').append('text')
-    .attr('transform',  `translate(${gMargin + 10},  ${rb(limit) +20})`)
+    .attr('transform',  `translate(${gMargin + 55},  ${rb(limit) +20})`)
     .text('Less Popular')
 }
 
@@ -327,7 +355,7 @@ async function initializeDataAndCreateAnnotations(year) {
   await loadAndProcessData(5)
   loadInitialYearRanking(year, width)
   createAnnotations(year)
-  buildAxis()
+  buildAxisMain()
   setupTooltip(year)
 }
 
@@ -335,7 +363,7 @@ async function initializeAndLoadData(year, limit = 5) {
   clearSVG()
   await loadAndProcessData(limit)
   loadInitialYearRanking(year, exploreWidth)
-  buildAxis()
+  buildAxisExplore()
   setupInteractivity()
   d3.select('svg#chart-svg').selectAll('g').selectAll('rect')
     .attr('stroke', 'grey')
