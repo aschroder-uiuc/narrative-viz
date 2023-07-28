@@ -1,23 +1,41 @@
 #header-div {
-    background-color: lightseagreen;
+    background-color:lightseagreen;
+    padding-top: 1px;
+    padding-left: 20px;
+    padding-bottom: 5px;
 }
 
 #main-body-div {
-    background-color: slateblue;
+    background-color: white;
     display: grid;
-    grid-template-columns: .5fr 2fr 1fr;
+    grid-template-columns: .6fr 2fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+#main-body-div-explore {
+    background-color: white;
+    display: grid;
+    grid-template-columns: .6fr .8fr 1fr .6fr;
     gap: 20px;
     margin-top: 20px;
 }
 #axis-div {
-    background-color: hotpink;
     margin-left: 20px;
+    padding-top: 30px;
 }
-#svg-div {
+#svg-div{
+    padding-top: 30px;
+}
+#description-div {
     background-color: lightblue;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#other-div{
+    background-color: white;
 }
 
-#description-div {
-    background-color: lightgoldenrodyellow;
-    
+rect {
+    fill: pink;  
 }
