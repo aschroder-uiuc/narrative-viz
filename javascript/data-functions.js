@@ -82,6 +82,7 @@ function loadInitialYearRanking(year, width) {
   .attr('y', 0) 
   .attr('width', barWidth)
   .attr('height', 30) 
+  .attr('fill', function(d){return getFillColor(d.breed)})
 
   //add text to each
   gSet.append('text')
@@ -175,14 +176,14 @@ function setupInteractivity() {
   const gSet = d3.select('svg#chart-svg').selectAll('g')
   .on('mouseover', function () {
     d3.select(this).select('rect')
-      .style('fill', 'rgb(250, 145, 163)')
+      .style('fill', function(d){return getHoverColor(d.breed)})
       .style('cursor','pointer')
     d3.select(this).select('text')
       .style('cursor','pointer')
   })
   .on('mouseout', function () {
     d3.select(this).select('rect')
-    .style('fill', 'pink')
+    .style('fill', function(d){return getFillColor(d.breed)})
   })
   .on('click', function (d) {
     descriptionData = getDescriptionData(d.breed)
@@ -213,8 +214,6 @@ function setupTooltip(year) {
     .attr('y', d3.event.pageY - 190)
   })
   .on('mouseout', function () {
-    d3.select(this).select('rect')
-      .style('fill', 'pink')
     d3.select('svg#chart-svg').select('text#tooltip').remove()
   })
 }
@@ -223,6 +222,23 @@ function getDescriptionData(breed) {
   const descriptionData = description.find((element) => element.breed === breed);
   console.log(descriptionData)
   return descriptionData;
+}
+
+
+
+function getFillColor(breed) {
+  if (breed == 'French Bulldog'){
+    return 'rgb(208, 151, 252)'
+  }
+  return 'pink'
+}
+
+function getHoverColor(breed) 
+{
+  if (breed == 'French Bulldog'){
+    return 'rgb(191, 111, 252)'
+  }
+  return 'rgb(250, 145, 163)'
 }
 //////////////////////////////////////
 // Annotations
