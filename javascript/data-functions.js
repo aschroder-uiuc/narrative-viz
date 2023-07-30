@@ -230,13 +230,21 @@ function getFillColor(breed) {
   if (breed == 'French Bulldog'){
     return 'rgb(208, 151, 252)'
   }
+  if (breed == 'Labrador Retriever'){
+    return 'rgb(185, 231, 255)'
+  }
   return 'pink'
 }
+
+143, 216, 255
 
 function getHoverColor(breed) 
 {
   if (breed == 'French Bulldog'){
     return 'rgb(191, 111, 252)'
+  }
+  if (breed == 'Labrador Retriever'){
+    return 'rgb(121, 208, 255)'
   }
   return 'rgb(250, 145, 163)'
 }
