@@ -259,12 +259,12 @@ function getAnnotations(year) {
     note: {
       title: 'English Bulldog',
       bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
-      label: "The Frenchie's bigger and wrinklier cousin has been a fan-favorite for years"
+      label: 'This is the last year that the English Bulldog is more popular than the Frenchie'
     },
     x: barWidth + gMargin,
     y: getYByRank(data.find((element) => element.breed === 'English Bulldog').ranking, 2016) + 10,
     className: 'annotation',
-    dy: -80,
+    dy: -100,
     dx: 160,
     connector: {
       end: 'arrow'
@@ -274,7 +274,7 @@ function getAnnotations(year) {
     note: {
       title: 'Beagles',
       bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
-      label: 'The smallest breed in the top 5, Beagles have an expected weight of 20 - 30 pounds',
+      label: 'Beagles are the only "small" breed in the top 5, with an expected weight of 20 - 30 pounds',
     },
     x: barWidth + gMargin,
     y: getYByRank(data.find((element) => element.breed === 'Beagle').ranking, 2016) + 10,
@@ -305,7 +305,7 @@ function getAnnotations(year) {
     note: {
       title: 'English Bulldog',
       bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
-      label: '2020 is the last year that the Bulldog stay in the top 5',
+      label: '2020 is the last year that the English Bulldog stays in the Top 5',
     },
     x: barWidth + gMargin,
     y: getYByRank(data.find((element) => element.breed === 'English Bulldog').ranking, 2020) + 10,
@@ -320,7 +320,7 @@ function getAnnotations(year) {
     note: {
       title: 'Golden Retriever',
       bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
-      label: 'In another upset, the Golden finally beats out the GSD for the number 3 spot.'
+      label: 'In another upset, the Golden finally beats out the German Shepherd for the number 3 spot'
     },
     x: barWidth + gMargin,
     y: getYByRank(data.find((element) => element.breed === 'Golden Retriever').ranking, 2022) + 10,
@@ -335,7 +335,7 @@ function getAnnotations(year) {
     note: {
       title: 'Poodle',
       bgPadding: {'top':15,'left':10,'right':10,'bottom':10},
-      label: 'Although the miniature poodles are very popular, the standard is in the top 5.',
+      label: 'Not a "frou-frou" dog, Standard Poodles are large, smart, athletic working dogs',
     },
     x: barWidth + gMargin,
     y: getYByRank(data.find((element) => element.breed === 'Poodle').ranking, 2022) + 10,
